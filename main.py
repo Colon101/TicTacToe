@@ -1,5 +1,5 @@
 from tkinter import *
-
+turn = "X"
 def check_winner():
     for i in range(3):
         if buttons[i][0]['text'] == buttons[i][1]['text'] == buttons[i][2]['text'] == "❌":
@@ -13,7 +13,13 @@ def check_winner():
     return False
 
 def button_click(row, col):
-    buttons[row][col].config(text="❌")
+    global turn
+    if turn == "X":
+        buttons[row][col].config(text="❌")
+        turn = "0"
+    else:
+        turn = "X"
+        buttons[row][col].config(text="⭕")
     buttons[row][col].config(state="disabled")
     if check_winner():
         print("Player has made a cross!")
