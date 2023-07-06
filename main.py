@@ -1,7 +1,9 @@
 from tkinter import *
 from tkinter import messagebox
-import os
+import random
+
 turn = "X"
+
 def check_winner():
     for i in range(3):
         if buttons[i][0]['text'] == buttons[i][1]['text'] == buttons[i][2]['text'] and \
@@ -18,26 +20,41 @@ def check_winner():
         return True
     return False
 
+def play_random():
+    empty_buttons = [(i, j) for i in range(3) for j in range(3) if buttons[i][j]['text'] == ""]
+    if empty_buttons:
+        row, col = random.choice(empty_buttons)
+        buttons[row][col].config(text="⭕")
+        buttons[row][col].config(state="disabled")
+        if check_winner():
+            messagebox.showinfo("⭕", "Player ⭕ Has Won!")
+            window.quit()
+        else:
+            switch_turn()
 
 def button_click(row, col):
     global turn
-    if turn == "X":
+    if buttons[row][col]['text'] == "":
         buttons[row][col].config(text="❌")
-        turn = "0"
+        buttons[row][col].config(state="disabled")
+        if check_winner():
+            messagebox.showinfo("❌", "Player ❌ Has Won!")
+            window.quit()
+        else:
+            play_random()
+
+def switch_turn():
+    global turn
+    if turn == "X":
+        turn = "⭕"
     else:
         turn = "X"
-        buttons[row][col].config(text="⭕")
-    buttons[row][col].config(state="disabled")
-    if check_winner():
-        if turn == "X":
-            messagebox.showinfo("⭕","Player ⭕ Has Won!")
-        else:
-            messagebox.showinfo("❌","Player ❌ Has Won!")
-            os._exit(1)
 
 window = Tk()
 window.title("Tic-Tac-Toe")
+
 buttons = []
+
 for i in range(3):
     row = []
     for j in range(3):
@@ -45,6 +62,7 @@ for i in range(3):
         button.grid(row=i, column=j)
         row.append(button)
     buttons.append(row)
+
 for i in range(3):
     for j in range(3):
         buttons[i][j].config(command=lambda row=i, col=j: button_click(row, col))
