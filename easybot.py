@@ -85,7 +85,7 @@ def switch_turn():
         turn = "X"
 
 window = Tk()
-window.title("Tic-Tac-Toe Hard Bot")
+window.title("Tic-Tac-Toe Easy")
 
 buttons = []
 
