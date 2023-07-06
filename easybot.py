@@ -32,6 +32,40 @@ def play_random():
         else:
             switch_turn()
 
+def play_strategic():
+    # Check if the bot can win in the next move
+    for i in range(3):
+        for j in range(3):
+            if buttons[i][j]['text'] == "":
+                buttons[i][j].config(text="⭕")
+                if check_winner():
+                    messagebox.showinfo("⭕", "Player ⭕ Has Won!")
+                    window.quit()
+                else:
+                    buttons[i][j].config(state="disabled")
+                    switch_turn()
+                    return
+
+    # Check if the player can win in the next move
+    for i in range(3):
+        for j in range(3):
+            if buttons[i][j]['text'] == "":
+                buttons[i][j].config(text="❌")
+                if check_winner():
+                    buttons[i][j].config(text="⭕")
+                    buttons[i][j].config(state="disabled")
+                    if check_winner():
+                        messagebox.showinfo("⭕", "Player ⭕ Has Won!")
+                        window.quit()
+                    else:
+                        switch_turn()
+                        return
+                else:
+                    buttons[i][j].config(text="")
+    
+    # If no immediate win/defense move is available, play randomly
+    play_random()
+
 def button_click(row, col):
     global turn
     if buttons[row][col]['text'] == "":
@@ -41,7 +75,7 @@ def button_click(row, col):
             messagebox.showinfo("❌", "Player ❌ Has Won!")
             window.quit()
         else:
-            play_random()
+            play_strategic()
 
 def switch_turn():
     global turn
@@ -51,7 +85,7 @@ def switch_turn():
         turn = "X"
 
 window = Tk()
-window.title("Tic-Tac-Toe Easy Bot")
+window.title("Tic-Tac-Toe Hard Bot")
 
 buttons = []
 
