@@ -21,6 +21,18 @@ def check_winner(board):
     if board[0][2] == board[1][1] == board[2][0] and board[0][2] in ["❌", "⭕"]:
         return True
 
+    # Check if there are any None values in rows
+    for row in board:
+        if None in row:
+            return False
+
+    # Check if there are any None values in columns
+    for i in range(3):
+        if None in [board[j][i] for j in range(3)]:
+            return False
+
+    messagebox.showinfo("Draw!","Players have made a draw!")
+    window.quit()
     return False
 
 def play_bot_move(board):
