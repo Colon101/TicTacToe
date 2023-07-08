@@ -59,7 +59,7 @@ def switch_turn():
         turn = "X"
 
 window = Tk()
-window.title("Tic-Tac-Toe Easy")
+window.title("Tic-Tac-Toe Medium")
 
 board = [[None, None, None],
          [None, None, None],
