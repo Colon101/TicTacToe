@@ -1,7 +1,6 @@
 # Install required Python packages
 $packages = @(
     "tk",
-    "random",
     "pyinstaller"
 )
 
