@@ -6,7 +6,7 @@ import math
 class TicTacToe:
     def __init__(self, difficulty):
         self.window = Tk()
-        self.window.title("Tic Tac Toe")
+        self.window.title(f'{difficulty} Tic-Tac-Toe')
         resolution = 300  # Specify the desired resolution
         padding = 50  # Specify the desired padding
         screen_width = self.window.winfo_screenwidth()
@@ -25,9 +25,12 @@ class TicTacToe:
             row = []
             for j in range(3):
                 button = Button(self.window, width=10, height=5, command=lambda row=i, col=j: self.button_click(row, col))
-                button.grid(row=i, column=j)
+                button.grid(row=i, column=j, sticky="nsew")
                 row.append(button)
+                self.window.grid_columnconfigure(j, weight=1)  # Make columns stretch
             self.buttons.append(row)
+            self.window.grid_rowconfigure(i, weight=1)  # Make rows stretch
+
 
     def check_winner(self):
         # Check rows
