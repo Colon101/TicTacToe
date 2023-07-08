@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
-import os
+
 PLAYER = "❌"
 BOT = "⭕"
 
@@ -97,7 +97,10 @@ def button_click(row, col):
         if winner == PLAYER:
             messagebox.showinfo(PLAYER, "Player {} Has Won!".format(PLAYER))
             window.quit()
-        elif winner is None:
+        elif winner == "draw":
+            messagebox.showinfo("Draw!", "Players have made a draw!")
+            window.quit()
+        else:
             play_bot_move(board)
 
 window = Tk()
