@@ -80,6 +80,8 @@ def button_click(row, col):
         else:
             switch_turn()
             play_bot_move(board)
+            print("bots move")
+            print(board)
 
 def switch_turn():
     global turn
