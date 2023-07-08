@@ -1,6 +1,6 @@
 winget install Python.Python.3.11
 
-
+.\requirements.ps1
 
 $sourceFile = "impossiblebot.py"
 $outputName = "impossiblebot.exe"
