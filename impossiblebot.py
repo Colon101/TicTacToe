@@ -108,7 +108,7 @@ def button_click(row, col):
             print(board)
 
 window = Tk()
-window.title("Tic-Tac-Toe Unbeatable")
+window.title("Tic-Tac-Toe Impossible")
 
 board = [[None, None, None],
          [None, None, None],
