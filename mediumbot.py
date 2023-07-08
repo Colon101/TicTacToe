@@ -36,38 +36,44 @@ def play_random(board):
             switch_turn(board)
 
 def play_strategic(board):
-    # Check if the bot can win in the next move
     for i in range(3):
         for j in range(3):
             if board[i][j] is None:
+                # Check if the bot's move allows the player to win in the next move
                 board[i][j] = "⭕"
+                if check_winner(board):
+                    # The player can win, try a different move
+                    board[i][j] = None
+                    continue
+                
+                # Reset the bot's move
+                board[i][j] = None
+
+                # Simulate bot's move
+                board[i][j] = "⭕"
+
                 if check_winner(board):
                     messagebox.showinfo("⭕", "Player ⭕ Has Won!")
                     window.quit()
                 else:
+                    # Check if opponent can win in the next move
+                    for x in range(3):
+                        for y in range(3):
+                            if board[x][y] is None:
+                                # Simulate opponent's move
+                                board[x][y] = "❌"
+                                if check_winner(board):
+                                    # Opponent can win, block their move
+                                    board[x][y] = "⭕"
+                                    buttons[x][y].config(text="⭕", state="disabled")
+                                    switch_turn(board)
+                                    return board
+                                # Reset opponent's move
+                                board[x][y] = None
+                    # No winning move for opponent, make the bot's move
                     buttons[i][j].config(text="⭕", state="disabled")
                     switch_turn(board)
                     return
-                board[i][j] = None
-
-    # Check if the player can win in the next move
-    for i in range(3):
-        for j in range(3):
-            if board[i][j] is None:
-                board[i][j] = "❌"
-                if check_winner(board):
-                    board[i][j] = "⭕"
-                    buttons[i][j].config(text="⭕", state="disabled")
-                    if check_winner(board):
-                        messagebox.showinfo("⭕", "Player ⭕ Has Won!")
-                        window.quit()
-                    else:
-                        switch_turn(board)
-                        return
-                board[i][j] = None
-
-    # If no immediate win/defense move is available, play randomly
-    play_random(board)
 
 def button_click(row, col, board):
     global turn
@@ -77,8 +83,13 @@ def button_click(row, col, board):
         if check_winner(board):
             messagebox.showinfo("❌", "Player ❌ Has Won!")
             window.quit()
+            print(board)
         else:
-            play_strategic(board)
+            print("my move")
+            print(board)
+            board = play_strategic(board)
+            print("bot's move")
+            print(board)
 
 def switch_turn(board):
     global turn
