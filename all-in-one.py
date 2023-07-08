@@ -2,11 +2,18 @@ from tkinter import *
 from tkinter import messagebox
 import threading
 import random
-
+import math
 class TicTacToe:
     def __init__(self, difficulty):
         self.window = Tk()
         self.window.title("Tic Tac Toe")
+        resolution = 300  # Specify the desired resolution
+        padding = 50  # Specify the desired padding
+        screen_width = self.window.winfo_screenwidth()
+        screen_height = self.window.winfo_screenheight()
+        x = math.floor((screen_width - resolution) / 2) - padding
+        y = math.floor((screen_height - resolution) / 2) - padding
+        self.window.geometry(f"{resolution}x{resolution}+{x}+{y}")
         self.board = [[None, None, None],
                       [None, None, None],
                       [None, None, None]]
@@ -190,7 +197,13 @@ def launch_impossible():
 def main_menu():
     window = Tk()
     window.title("Tic Tac Toe - Main Menu")
-
+    resolution = 300  # Specify the desired resolution
+    padding = 50  # Specify the desired padding
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+    x = math.floor((screen_width - resolution) / 2) - padding
+    y = math.floor((screen_height - resolution) / 2) - padding
+    window.geometry(f"{resolution}x{resolution}+{x}+{y}")
     label = Label(window, text="Welcome to Tic Tac Toe", font=("Arial", 20))
     label.pack(pady=20)
 
