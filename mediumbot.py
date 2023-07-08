@@ -72,12 +72,12 @@ def button_click(row, col):
     if board[row][col] is None:
         board[row][col] = "❌"
         buttons[row][col].config(text="❌", state="disabled")
-        print("Player's move")
-        print(board)
         if check_winner(board):
             messagebox.showinfo("❌", "Player ❌ Has Won!")
             window.quit()
         else:
+            print("player's move")
+            print(board)
             switch_turn()
             play_bot_move(board)
             print("bots move")
