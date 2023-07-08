@@ -101,7 +101,11 @@ def button_click(row, col):
             messagebox.showinfo("Draw!", "Players have made a draw!")
             window.quit()
         else:
+            print("player's move")
+            print(board)
             play_bot_move(board)
+            print("bot's move")
+            print(board)
 
 window = Tk()
 window.title("Tic-Tac-Toe Unbeatable")
