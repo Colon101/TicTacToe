@@ -23,75 +23,35 @@ def check_winner(board):
 
     return False
 
-def play_random(board):
+def play_bot_move(board):
     empty_cells = [(i, j) for i in range(3) for j in range(3) if board[i][j] is None]
     if empty_cells:
         row, col = random.choice(empty_cells)
         board[row][col] = "⭕"
         buttons[row][col].config(text="⭕", state="disabled")
+        print("Bot's move")
+        print(board)
         if check_winner(board):
             messagebox.showinfo("⭕", "Player ⭕ Has Won!")
             window.quit()
         else:
-            switch_turn(board)
+            switch_turn()
 
-def play_strategic(board):
-    for i in range(3):
-        for j in range(3):
-            if board[i][j] is None:
-                # Check if the bot's move allows the player to win in the next move
-                board[i][j] = "⭕"
-                if check_winner(board):
-                    # The player can win, try a different move
-                    board[i][j] = None
-                    continue
-                
-                # Reset the bot's move
-                board[i][j] = None
-
-                # Simulate bot's move
-                board[i][j] = "⭕"
-
-                if check_winner(board):
-                    messagebox.showinfo("⭕", "Player ⭕ Has Won!")
-                    window.quit()
-                else:
-                    # Check if opponent can win in the next move
-                    for x in range(3):
-                        for y in range(3):
-                            if board[x][y] is None:
-                                # Simulate opponent's move
-                                board[x][y] = "❌"
-                                if check_winner(board):
-                                    # Opponent can win, block their move
-                                    board[x][y] = "⭕"
-                                    buttons[x][y].config(text="⭕", state="disabled")
-                                    switch_turn(board)
-                                    return board
-                                # Reset opponent's move
-                                board[x][y] = None
-                    # No winning move for opponent, make the bot's move
-                    buttons[i][j].config(text="⭕", state="disabled")
-                    switch_turn(board)
-                    return
-
-def button_click(row, col, board):
+def button_click(row, col):
     global turn
     if board[row][col] is None:
         board[row][col] = "❌"
         buttons[row][col].config(text="❌", state="disabled")
+        print("Player's move")
+        print(board)
         if check_winner(board):
             messagebox.showinfo("❌", "Player ❌ Has Won!")
             window.quit()
-            print(board)
         else:
-            print("my move")
-            print(board)
-            board = play_strategic(board)
-            print("bot's move")
-            print(board)
+            switch_turn()
+            play_bot_move(board)
 
-def switch_turn(board):
+def switch_turn():
     global turn
     if turn == "X":
         turn = "⭕"
@@ -110,13 +70,9 @@ buttons = []
 for i in range(3):
     row = []
     for j in range(3):
-        button = Button(window, width=10, height=5)
+        button = Button(window, width=10, height=5, command=lambda row=i, col=j: button_click(row, col))
         button.grid(row=i, column=j)
         row.append(button)
     buttons.append(row)
-
-for i in range(3):
-    for j in range(3):
-        buttons[i][j].config(command=lambda row=i, col=j: button_click(row, col, board))
 
 window.mainloop()
